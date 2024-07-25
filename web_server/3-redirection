@@ -2,24 +2,12 @@
 # Bash script configures an Nginx server so that /redirect_me redirects to another page.
 # The redirection is configured as a "301 Moved Permanently"
 
-apt-get update
-apt-get install -y nginx
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+echo "This is Sharon from Holberton School :)" | sudo tee /var/www/html/index.html > /dev/null
 
-mkdir /etc/nginx/html
-touch /etc/nginx/html/index.html
-echo "Holberton School" > /etc/nginx/html/index.html
-printf %s "server {
-    listen 80;
-    listen [::]:80 default_server;
-    root   /etc/nginx/html;
-    index  index.html index.htm;
+string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.github.com\/SMushy14 permanent;"
+sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
-    location / {
-	try_files \$uri \$uri/ =404;
-    }
-    location /redirect_me {
-        return 301 https://youtu.be/JKxlsvZXG7c?si=-8F7Ta5pxdxkYhTi;
-    }
-}" > /etc/nginx/sites-available/default
-
-service nginx restart
+sudo service nginx restart
