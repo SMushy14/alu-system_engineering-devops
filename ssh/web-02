@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#Bash script that uses ssh to connect to your server
+#key ~/.ssh/key_id with the user ubuntu
+ssh ubuntu@34.228.6.49 -i ~/.ssh/id_rsa
